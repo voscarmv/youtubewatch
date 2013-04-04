@@ -39,9 +39,11 @@ cd "${DOWNLOAD_DIR}"
 FILENAME=`echo ${1} | sed 's/.*=//'`
 youtube-dl --no-progress -t --restrict-filenames -f ${2} ${1} &
 ls -- *${FILENAME}*
-while test -z `ls *${FILENAME}* 2>/dev/null` ; do
+while test ! -e *${FILENAME}* ; do
 	:
 done
+echo File created!
+ls -- *${FILENAME}*
 echo Please wait ${BUFF_DELAY} seconds
 echo '(for your video to buffer)'
 date
