@@ -1,0 +1,12 @@
+Thu Apr  4 14:41:47 CDT 2013
+1.	Make the second argument optional. Make default format 5.
+2.	If format 5 is unavailable, default to 36, 83, or exit with error.
+3.	Make DOWNLOAD_DIR and BUFF_DELAY optional.
+3.	Add option parser with bash_optionmaker:
+		https://github.com/vomv1988/bash_optionmaker
+	Run the following tests for options:
+		For DOWNLOAD_DIR, test for directoy existence
+		For BUFF_DELAY and video format (2.), test for purely numerical
+		string.
+		For youtube URL, test for correct syntax (youtube.com/watch?v=xxxx)
+NOTE:	Point 2 seems complicated. Perhaps it is better to skip it.
