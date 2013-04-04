@@ -9,4 +9,5 @@ Thu Apr  4 14:41:47 CDT 2013
 		For BUFF_DELAY and video format (2.), test for purely numerical
 		string.
 		For youtube URL, test for correct syntax (youtube.com/watch?v=xxxx)
+4.	Make removal prompt optional by boolean variable '-r' or something.
 NOTE:	Point 2 seems complicated. Perhaps it is better to skip it.
