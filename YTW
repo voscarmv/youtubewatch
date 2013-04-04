@@ -1,0 +1,43 @@
+#!/bin/bash
+
+#	Y T W
+#	o u a
+#	u b t
+#	  e c
+#	    h
+
+#	An extremely minimalistic youtube player.
+
+#	${1}	Youtube URL
+#	${2}	Video format
+#		Values:
+#		5	240p FLV
+#		36	240p 3GP
+#		83	240p MP4
+#		More	http://en.wikipedia.org/wiki/YouTube#Quality_and_codecs
+
+#	Dependencies:
+#		youtube-dl
+#		mplayer
+
+cd /home/oscar/Downloads
+FILENAME=`echo ${1} | sed 's/.*=//'`
+# youtube-dl -qf 36 ${1} 1>/dev/null 2>/dev/null &
+youtube-dl --no-progress -t --restrict-filenames -f ${2} ${1} &
+ls *${FILENAME}*
+while test -z `ls *${FILENAME}* 2>/dev/null` ; do
+	:
+done
+echo Please wait 20 seconds
+echo \(for your video to buffer\)
+date
+sleep 20
+date
+# mplayer -fs -quiet *${FILENAME}*
+echo Playing...
+ls -alh -- *${FILENAME}*
+mplayer -hardframedrop -fs -lavdopts skipframe=noref:skiploopfilter=all -- *${FILENAME}*
+rm -vi *${FILENAME}*
+while test ${?} -ne 0 -a -e *${FILENAME}* ; do
+	rm -vi *${FILENAME}*
+done
