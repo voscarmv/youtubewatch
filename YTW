@@ -20,7 +20,7 @@
 #		youtube-dl
 #		mplayer
 
-cd /home/oscar/Downloads
+cd ~/Downloads
 FILENAME=`echo ${1} | sed 's/.*=//'`
 # youtube-dl -qf 36 ${1} 1>/dev/null 2>/dev/null &
 youtube-dl --no-progress -t --restrict-filenames -f ${2} ${1} &
