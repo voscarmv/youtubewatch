@@ -20,20 +20,33 @@
 #		youtube-dl
 #		mplayer
 
-cd /home/oscar/Downloads
+#	Please modify the following varialbles to fit your needs:
+
+#		Where you want your videos to be saved (this is the PWD by default):
+
+			DOWNLOAD_DIR=`pwd`
+
+#		How many seconds you wish to wait since the time you begin to download the
+#		video, to the moment it starts playing. This gives youtube-dl time to
+#		buffer the video. Consider your internet connection's speed, and just
+#		use common sense (or trial and error) here:
+
+			BUFF_DELAY=20
+
+#
+
+cd "${DOWNLOAD_DIR}"
 FILENAME=`echo ${1} | sed 's/.*=//'`
-# youtube-dl -qf 36 ${1} 1>/dev/null 2>/dev/null &
 youtube-dl --no-progress -t --restrict-filenames -f ${2} ${1} &
-ls *${FILENAME}*
+ls -- *${FILENAME}*
 while test -z `ls *${FILENAME}* 2>/dev/null` ; do
 	:
 done
-echo Please wait 20 seconds
-echo \(for your video to buffer\)
+echo Please wait ${BUFF_DELAY} seconds
+echo '(for your video to buffer)'
 date
-sleep 20
+sleep ${BUFF_DELAY}
 date
-# mplayer -fs -quiet *${FILENAME}*
 echo Playing...
 ls -alh -- *${FILENAME}*
 mplayer -hardframedrop -fs -lavdopts skipframe=noref:skiploopfilter=all -- *${FILENAME}*
