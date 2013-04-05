@@ -89,6 +89,8 @@ while test ! -e *${FILENAME}* -a -n "${PROC_RUNNING}" ; do
 	echo x
 done | zenity --progress --pulsate --auto-close --text "Starting download..." \
 	--title Download
+sleep 1
+PROC_RUNNING=`ps -e | grep ${DL_PID}`
 if test ! -e *${FILENAME}* -a -z "${PROC_RUNNING}" ; then
 	echo Could not download video. Exiting...
 	zenity --error --title Error --text "Could not download video."
