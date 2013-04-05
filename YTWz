@@ -90,7 +90,8 @@ PROC_RUNNING=`ps -e | grep ${DL_PID}`
 while test ! -e *${FILENAME}* -a -n "${PROC_RUNNING}" ; do
 	PROC_RUNNING=`ps -e | grep ${DL_PID}`
 	echo x
-done | zenity --progress --pulsate --auto-close --text "Starting download..." \
+done | zenity --progress --pulsate --auto-close \
+	--text "Starting download, with video format ${FORMAT}..." \
 	--title Download
 sleep 1
 PROC_RUNNING=`ps -e | grep ${DL_PID}`
@@ -101,17 +102,17 @@ if test ! -e *${FILENAME}* -a -z "${PROC_RUNNING}" ; then
 fi
 echo File created!
 ls -- *${FILENAME}*
+FILE=`ls *${FILENAME}*`
 echo Please wait ${BUFF_DELAY} seconds
 echo '(for your video to buffer)'
 date
 { echo x ; sleep ${BUFF_DELAY} ; } | zenity --progress --pulsate --auto-close \
-	--text "Buffering video..." --title 'Buffer'
+	--text "Buffering video in file ${DOWNLOAD_DIR}/${FILE}..." --title 'Buffer'
 date
 echo Playing...
 ls -alh -- *${FILENAME}*
 mplayer -hardframedrop -fs -lavdopts skipframe=noref:skiploopfilter=all -- *${FILENAME}*
-FILE=`ls *${FILENAME}*`
-zenity --question --title Delete --text "Delete ${FILE}?"
+zenity --question --title Delete --text "Delete file ${FILE}?"
 if test ${?} = 0 ; then
 	rm *${FILENAME}*
 	if test ! -e *${FILENAME}* ; then
