@@ -1,0 +1,101 @@
+#!/bin/bash
+
+#  Y T W
+#	o u a
+#	u b t
+#	  e c
+#	    h
+
+#	An extremely minimalistic youtube player.
+
+#	${1}	Youtube URL
+#	${2}	Video format
+#		Values:
+#		5	240p FLV
+#		36	240p 3GP
+#		83	240p MP4
+#		More	http://en.wikipedia.org/wiki/YouTube#Quality_and_codecs
+
+#	Dependencies:
+#		youtube-dl
+#		mplayer
+
+#	Please modify the following varialbles to fit your needs:
+
+#		Where you want your videos to be saved (this is the PWD by default):
+
+			DOWNLOAD_DIR=`pwd`
+
+#		How many seconds you wish to wait since the time you begin to download the
+#		video, to the moment it starts playing. This gives youtube-dl time to
+#		buffer the video. Consider your internet connection's speed, and just
+#		use common sense (or trial and error) here:
+
+			BUFF_DELAY=20
+
+#		The default video format. Format 5 is chosen because it plays efficiently.
+
+			FORMAT=5
+
+#
+
+USAGE='
+		Y T W
+		o u a
+		u b t
+		  e c
+		    h
+
+An extremely minimalistic youtube player.
+
+	Usage:
+		$ YTW url [fmt]
+		url	Youtube URL
+		fmt	Video format (default is 5)
+			Values:
+			5	240p FLV
+			36	240p 3GP
+			83	240p MP4
+			More	http://en.wikipedia.org/wiki/YouTube#Quality_and_codecs
+
+'
+if test ${#} -lt 1 ; then
+	printf '%s' "${USAGE}"
+	exit 1
+fi
+if test ${#} -ge 2 ; then
+	ALL_NUMERIC=`echo ${2} | grep [^0-9]`
+	if test -n "${ALL_NUMERIC}" ; then
+		echo Wrong fmt value. Defaulting to 5...
+	else
+		FORMAT=${2}
+		echo Video format ${FORMAT} selected.
+	fi
+fi
+URL="${1}"
+cd "${DOWNLOAD_DIR}"
+FILENAME=`echo ${1} | sed 's/.*=//'`
+youtube-dl --no-progress -t --restrict-filenames -f "${FORMAT}" "${URL}" &
+DL_PID=$!
+PROC_RUNNING=`ps -e | grep ${DL_PID}`
+while test ! -e *${FILENAME}* -a -n "${PROC_RUNNING}" ; do
+	PROC_RUNNING=`ps -e | grep ${DL_PID}`
+done
+if test ! -e *${FILENAME}* -a -z "${PROC_RUNNING}" ; then
+	echo Could not download video. Exiting...
+	exit 1
+fi
+echo File created!
+ls -- *${FILENAME}*
+echo Please wait ${BUFF_DELAY} seconds
+echo '(for your video to buffer)'
+date
+sleep ${BUFF_DELAY}
+date
+echo Playing...
+ls -alh -- *${FILENAME}*
+mplayer -hardframedrop -fs -lavdopts skipframe=noref:skiploopfilter=all -- *${FILENAME}*
+rm -vi *${FILENAME}*
+while test ${?} -ne 0 -a -e *${FILENAME}* ; do
+	rm -vi *${FILENAME}*
+done
