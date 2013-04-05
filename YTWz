@@ -1,12 +1,14 @@
 #!/bin/bash
 
-#	Y T W
-#	o u a
-#	u b t
-#	  e c
-#	    h
+#	Y T W z
+#	o u a e
+#	u b t n
+#	  e c i
+#	    h t
+#	      y
 
 #	An extremely minimalistic youtube player.
+#		...Zenity-enhanced edition!
 
 #	${1}	Youtube URL
 #	${2}	Video format
@@ -19,6 +21,7 @@
 #	Dependencies:
 #		youtube-dl
 #		mplayer
+#		zenity
 
 #	Please modify the following varialbles to fit your needs:
 
@@ -39,28 +42,31 @@
 
 #
 
+ARGS=`zenity --entry --text='To proud owners of legacy, or otherwise slow, computers worldwide;\nI give you: YouTubeWatch, an extremely minimalistic youtube player\n\nEnter youtube URL below, or enter empty string for help:' --title 'YouTubeWatch'`
+set ${ARGS}
 USAGE='
-		Y T W
-		o u a
-		u b t
-		  e c
-		    h
+YouTubeWatch ...Zenity-enhanced edition!
 
 An extremely minimalistic youtube player.
 
 	Usage:
-		$ YTW url [fmt]
+		In the text prompt, you may enter a string 
+		of the form:
+
+		url [fmt]
+
 		url	Youtube URL
 		fmt	Video format (default is 5)
 			Values:
 			5	240p FLV
 			36	240p 3GP
 			83	240p MP4
-			More	http://en.wikipedia.org/wiki/YouTube#Quality_and_codecs
+			More in:
+http://en.wikipedia.org/wiki/YouTube#Quality_and_codecs
 
 '
 if test ${#} -lt 1 ; then
-	printf '%s' "${USAGE}"
+	zenity --error --title Error --text "${USAGE}"
 	exit 1
 fi
 if test ${#} -ge 2 ; then
@@ -80,9 +86,12 @@ DL_PID=$!
 PROC_RUNNING=`ps -e | grep ${DL_PID}`
 while test ! -e *${FILENAME}* -a -n "${PROC_RUNNING}" ; do
 	PROC_RUNNING=`ps -e | grep ${DL_PID}`
-done
+	echo x
+done | zenity --progress --pulsate --auto-close --text "Starting download..." \
+	--title Download
 if test ! -e *${FILENAME}* -a -z "${PROC_RUNNING}" ; then
 	echo Could not download video. Exiting...
+	zenity --error --title Error --text "Could not download video."
 	exit 2
 fi
 echo File created!
@@ -90,13 +99,19 @@ ls -- *${FILENAME}*
 echo Please wait ${BUFF_DELAY} seconds
 echo '(for your video to buffer)'
 date
-sleep ${BUFF_DELAY}
-	--text "Downloading video..."
+{ echo x ; sleep ${BUFF_DELAY} ; } | zenity --progress --pulsate --auto-close \
+	--text "Buffering video..." --title 'Buffer'
 date
 echo Playing...
 ls -alh -- *${FILENAME}*
 mplayer -hardframedrop -fs -lavdopts skipframe=noref:skiploopfilter=all -- *${FILENAME}*
-rm -vi *${FILENAME}*
-while test ${?} -ne 0 -a -e *${FILENAME}* ; do
-	rm -vi *${FILENAME}*
-done
+FILE=`ls *${FILENAME}*`
+zenity --question --title Delete --text "Delete ${FILE}?"
+if test ${?} = 0 ; then
+	rm *${FILENAME}*
+	if test ! -e *${FILENAME}* ; then
+		zenity --title Success --info --text "File ${FILE} has been deleted"
+	else
+		zenity --title Error --error --text "Could not delete ${FILE}"
+	fi
+fi
