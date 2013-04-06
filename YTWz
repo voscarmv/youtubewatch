@@ -37,8 +37,8 @@
 
 			DOWNLOAD_DIR=`pwd`
 
-#	Uncomment the following line if you have already created directory ~/youtube,
-#	and wish your videos to be saved there:
+#		Uncomment the following line if you have already created directory ~/youtube,
+#		and wish your videos to be saved there:
 
 #			DOWNLOAD_DIR=~/youtube
 
