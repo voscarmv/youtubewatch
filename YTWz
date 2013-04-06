@@ -57,6 +57,12 @@
 
 			FORMAT=5
 
+if test ! -d "${DOWNLOAD_DIR}" ; then
+	zenity --error --title Error \
+	--text  \
+ 'Destination directory\n'"${DOWNLOAD_DIR}"'\ndoes not exist. Please create it.'
+	exit 3
+fi
 ARGS=`zenity --entry --text='To proud owners of legacy, or otherwise slow, computers worldwide;\nI give you: YouTubeWatch, an extremely minimalistic youtube player\n\nEnter youtube URL below, or enter empty string for help:' --title 'YouTubeWatch'`
 if test ${?} = 1 ; then
 	exit 0
