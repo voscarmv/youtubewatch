@@ -23,11 +23,24 @@
 #		mplayer
 #		zenity
 
+#	Recommended:
+#		links2
+
+#	Use:
+#		links2 -g www.youtube.com
+#	To browse youtube, and copy video URLs with
+#	Alt+F, c
+
 #	Please modify the following varialbles to fit your needs:
 
 #		Where you want your videos to be saved (this is the PWD by default):
 
 			DOWNLOAD_DIR=`pwd`
+
+#	Uncomment the following line if you have already created directory ~/youtube,
+#	and wish your videos to be saved there:
+
+#			DOWNLOAD_DIR=~/youtube
 
 #		How many seconds you wish to wait since the time you begin to download the
 #		video, to the moment it starts playing. This gives youtube-dl time to
@@ -40,8 +53,6 @@
 
 			FORMAT=5
 
-#
-
 ARGS=`zenity --entry --text='To proud owners of legacy, or otherwise slow, computers worldwide;\nI give you: YouTubeWatch, an extremely minimalistic youtube player\n\nEnter youtube URL below, or enter empty string for help:' --title 'YouTubeWatch'`
 if test ${?} = 1 ; then
 	exit 0
@@ -49,15 +60,11 @@ fi
 set ${ARGS}
 USAGE='
 YouTubeWatch ...Zenity-enhanced edition!
-
-An extremely minimalistic youtube player.
-
+	An extremely minimalistic youtube player.
 	Usage:
 		In the text prompt, you may enter a string 
 		of the form:
-
-		url [fmt]
-
+			url [fmt]
 		url	Youtube URL
 		fmt	Video format (default is 5)
 			Values:
@@ -66,10 +73,14 @@ An extremely minimalistic youtube player.
 			83	240p MP4
 			More in:
 http://en.wikipedia.org/wiki/YouTube#Quality_and_codecs
-
+	Extra advice:
+		Use
+			links2 -g www.youtube.com
+		to browse youtube, and copy video URLs with
+		Alt+F, c
 '
 if test ${#} -lt 1 ; then
-	zenity --error --title Error --text "${USAGE}"
+	zenity --error --title Error --text 'You have entered an empty string, read below:\n'"${USAGE}"
 	exit 1
 fi
 if test ${#} -ge 2 ; then
