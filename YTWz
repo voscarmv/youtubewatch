@@ -1,15 +1,15 @@
 #!/bin/bash
-
+#
 #	Y T W z
 #	o u a e
 #	u b t n
 #	  e c i
 #	    h t
 #	      y
-
+#
 #	An extremely minimalistic youtube player.
 #		...Zenity-enhanced edition!
-
+#
 #	${1}	Youtube URL
 #	${2}	Video format
 #		Values:
@@ -17,46 +17,46 @@
 #		36	240p 3GP
 #		83	240p MP4
 #		More	http://en.wikipedia.org/wiki/YouTube#Quality_and_codecs
-
+#
 #	Dependencies:
 #		youtube-dl
 #		mplayer
 #		zenity
-
+#
 #	Recommended:
 #		links2
 #		xdotool
 #		xsel
-
+#
 #	Use:
 #		links2 -g www.youtube.com
 #	to browse youtube, copy video URLs with
 #		Alt+F, c
 #	and paste, assigning the following line to some hotkey:
 #		xdotool type `xsel`
-
+#
 #	Please modify the following varialbles to fit your needs:
-
+#
 #		Where you want your videos to be saved (this is the PWD by default):
-
+#
 			DOWNLOAD_DIR=`pwd`
-
+#
 #		Uncomment the following line if you have already created directory ~/youtube,
 #		and wish your videos to be saved there:
-
+#
 #			DOWNLOAD_DIR=~/youtube
-
+#
 #		How many seconds you wish to wait since the time you begin to download the
 #		video, to the moment it starts playing. This gives youtube-dl time to
 #		buffer the video. Consider your internet connection's speed, and just
 #		use common sense (or trial and error) here:
-
+#
 			BUFF_DELAY=20
-
+#
 #		The default video format. Format 5 is chosen because it plays efficiently.
-
+#
 			FORMAT=5
-
+#
 if test ! -d "${DOWNLOAD_DIR}" ; then
 	zenity --error --title Error \
 	--text  \
@@ -131,7 +131,7 @@ echo Please wait ${BUFF_DELAY} seconds
 echo '(for your video to buffer)'
 date
 { echo x ; sleep ${BUFF_DELAY} ; } | zenity --progress --pulsate --auto-close \
-	--text "Buffering video in file ${DOWNLOAD_DIR}/${FILE}..." --title 'Buffer'
+	--text "Buffering video in file\n${DOWNLOAD_DIR}/${FILE}..." --title 'Buffer'
 date
 echo Playing...
 ls -alh -- *${FILENAME}*

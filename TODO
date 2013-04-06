@@ -19,3 +19,6 @@ Fri Apr  5 20:01:36 CDT 2013
 	To determine the nature of exit error, and maybe then implement 2.
 4.	Recommend links2 -g for browsing youtube and copying YT URLs with
 	Alt+f - c
+Sat Apr  6 13:31:34 CDT 2013
+1.	Store all long strings in variables.
+2.	Fix all quoting: make it uniform (pick a style, and stick to it).
