@@ -15,7 +15,7 @@ Fri Apr  5 20:01:36 CDT 2013
 1.	Specify nature of error in blank line USAGE error
 2.	Comment recommended directory ~/youtube
 3.	Consider using
-	YOUTUBE-DL_EXIT=`youtube-dl XXXX &`
+	YOUTUBE-DL_EXIT=`{ youtube-dl ; echo $? ; } &`
 	To determine the nature of exit error, and maybe then implement 2.
 4.	Recommend links2 -g for browsing youtube and copying YT URLs with
 	Alt+f - c
