@@ -1,13 +1,28 @@
 #!/bin/bash
-
+# youtubewatch, Copyright 2013 Vicente Oscar Mier Vela <vomv1988@gmail.com>
+#    This file is part of youtubewatch.
+#
+#    youtubewatch is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    youtubewatch is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with youtubewatch.  If not, see <http://www.gnu.org/licenses/>.
+#
 #	Y T W
 #	o u a
 #	u b t
 #	  e c
 #	    h
-
+#
 #	An extremely minimalistic youtube player.
-
+#
 #	${1}	Youtube URL
 #	${2}	Video format
 #		Values:
@@ -15,30 +30,30 @@
 #		36	240p 3GP
 #		83	240p MP4
 #		More	http://en.wikipedia.org/wiki/YouTube#Quality_and_codecs
-
+#
 #	Dependencies:
 #		youtube-dl
 #		mplayer
-
+#
 #	Please modify the following varialbles to fit your needs:
-
+#
 #		Where you want your videos to be saved (this is the PWD by default):
-
+#
 			DOWNLOAD_DIR=`pwd`
-
+#
 #		How many seconds you wish to wait since the time you begin to download the
 #		video, to the moment it starts playing. This gives youtube-dl time to
 #		buffer the video. Consider your internet connection's speed, and just
 #		use common sense (or trial and error) here:
-
-			BUFF_DELAY=20
-
-#		The default video format. Format 5 is chosen because it plays efficiently.
-
-			FORMAT=5
-
 #
-
+			BUFF_DELAY=20
+#
+#		The default video format. Format 5 is chosen because it plays efficiently.
+#
+			FORMAT=5
+#
+#
+#
 USAGE='
 		Y T W
 		o u a
