@@ -106,7 +106,6 @@ echo Please wait ${BUFF_DELAY} seconds
 echo '(for your video to buffer)'
 date
 sleep ${BUFF_DELAY}
-	--text "Downloading video..."
 date
 echo Playing...
 ls -alh -- *${FILENAME}*
