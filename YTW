@@ -95,6 +95,7 @@ DL_PID=$!
 PROC_RUNNING=`ps -e | grep ${DL_PID}`
 while test ! -e *${FILENAME}* -a -n "${PROC_RUNNING}" ; do
 	PROC_RUNNING=`ps -e | grep ${DL_PID}`
+	sleep 2
 done
 if test ! -e *${FILENAME}* -a -z "${PROC_RUNNING}" ; then
 	echo Could not download video. Exiting...
