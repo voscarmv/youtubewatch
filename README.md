@@ -1,4 +1,4 @@
-#An extremely minimalistic youtube player.
+# An extremely minimalistic youtube player.
 
 This script plays a youtube video without using a web browser.
 
